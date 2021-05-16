@@ -1,0 +1,100 @@
+import sys
+
+__author__ = 'Qudsi Aljabiri for CSE 30, qaljabir@ucsc.edu'
+
+
+def filer(filee):
+    f = filee
+    lines = []
+    for ll in f:
+        lines.append(ll)
+    for i in range(len(f[0])):
+        temp = ''
+        for ll in f:
+            temp += ll[i]
+        lines.append(temp)
+    for i in range(len(f[0])-1, -1, -1):
+        temp = ''
+        temp2 = ''
+        t = i
+        t2 = i
+        for k in f:
+            temp += k[t]
+            if t > 0:
+                t += -1
+            else:
+                lines.append(temp)
+                break
+        vvert = f
+        vvert.reverse()
+        for k in vvert:
+            temp2 += k[t]
+            if t2 > 0:
+                t2 += -1
+            else:
+                lines.append(temp)
+                break
+    for i in range(len(f[0])):
+        temp = ''
+        temp2 = ''
+        t = i
+        t2 = i
+        for k in f:
+            temp += k[t]
+            if t < len(f[0])-1:
+                t += 1
+            else:
+                lines.append(temp)
+                break
+        vvert = f
+        vvert.reverse()
+        for k in vvert:
+            temp2 += k[t]
+            if t2 < len(f[0])-1:
+                t2 += 1
+            else:
+                lines.append(temp)
+                break
+    return lines
+
+def puzz (lines, path):
+    f = open(path, 'r')
+    word = []
+    fil = []
+    for ll in f:
+        fil.append(str(ll))
+    for i in lines:
+        li = i.lower()
+        for ll in fil:
+            ll = ll.replace(' ', '')
+            if li.find(ll) != -1:
+                word.append(ll)
+                break
+            if li[::-1].find(ll) != -1:
+                word.append(ll)
+                break
+    return word
+
+def main(length, path, cross):
+    lines = filer(cross)
+    words = puzz(lines, path)
+    print(words)
+    word = []
+    for i in words:
+        if i not in word and len(i) > length - 1:
+            print (i)
+            word.append(i)
+    return word
+
+
+
+cross = []
+length = int(sys.argv[1])
+path = sys.argv[2]
+while True:
+    t = input()
+    cross.append(t)
+    for i in range(len(t) - 2):
+      cross.append(input())
+    break
+words = main(length, path, cross)
